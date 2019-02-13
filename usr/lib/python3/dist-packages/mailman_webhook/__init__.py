@@ -82,12 +82,12 @@ class Archiver(object):
                 config.archiver.webhook.configuration)
         try:
             self.url = archiver_config.get("global", "url")
-        except NoOptionError:
+        except (KeyError, NoOptionError):
             self.url = ""
             pass
         try:
             self.message_format = archiver_config.get("global", "message_format")  
-        except NoOptionError:
+        except (KeyError, NoOptionError):
             pass
         try:
             for section in archiver_config.sections():
@@ -98,7 +98,7 @@ class Archiver(object):
                         _log_error(list_name + " channel is ready to send out messages!")
                 else:
                     continue
-        except NoOptionError as e: 
+        except (KeyError, NoOptionError) as e: 
             _log_error("While parsing the config for lists configuration, there was an error " + str(e.message))
 
     def __init__(self):
